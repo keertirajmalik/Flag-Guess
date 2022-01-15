@@ -40,7 +40,6 @@ class ViewController: UIViewController {
             
             correctAnswer = Int.random(in: 0...2)
             title = countries[correctAnswer].uppercased() + " Your score is \(score)"
-            questionCount += 1
         }
     }
     
@@ -51,11 +50,12 @@ class ViewController: UIViewController {
             title = "Correct"
             score += 1
         } else {
-            title = "Wrong"
+            title = "Wrong! That's flag of \(countries[sender.tag].uppercased())"
             score -= 1
         }
         
         displayAlert(title: title)
+        questionCount += 1
     }
     
     func displayAlert(title: String?){
