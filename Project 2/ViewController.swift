@@ -24,12 +24,7 @@ class ViewController: UIViewController {
                 
         askQuestion()
         
-        button1.layer.borderWidth = 1
-        button2.layer.borderWidth = 1
-        button3.layer.borderWidth = 1
-        button1.layer.borderColor = UIColor.lightGray.cgColor
-        button2.layer.borderColor = UIColor.lightGray.cgColor
-        button3.layer.borderColor = UIColor.lightGray.cgColor
+        displayBorder()
     }
 
     func askQuestion(action: UIAlertAction! = nil){
@@ -54,8 +49,21 @@ class ViewController: UIViewController {
             score -= 1
         }
         
+        displayAlert(title: title)
+    }
+    
+    func displayAlert(title: String?){
         let ac = UIAlertController(title: title, message: "Your score is \(score)", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "Continue", style: .default, handler: askQuestion))
         present(ac, animated: true)
+    }
+    
+    func displayBorder() {
+        button1.layer.borderWidth = 1
+        button2.layer.borderWidth = 1
+        button3.layer.borderWidth = 1
+        button1.layer.borderColor = UIColor.lightGray.cgColor
+        button2.layer.borderColor = UIColor.lightGray.cgColor
+        button3.layer.borderColor = UIColor.lightGray.cgColor
     }
 }
