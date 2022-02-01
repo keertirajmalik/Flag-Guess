@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     var score = 0
     var correctAnswer = 0
     var questionCount = 0
+    var highestScore = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,11 +27,29 @@ class ViewController: UIViewController {
         askQuestion()
         
         displayBorder()
+        
+        let defaults = UserDefaults.standard
+        
+        if let savedScore = defaults.object(forKey: "score") as? Data {
+            let jsonDecoder = JSONDecoder()
+            
+            do {
+                highestScore = try jsonDecoder.decode(Int.self, from: savedScore)
+            } catch {
+                print("Failed to get the score.")
+            }
+        }
     }
     
     func askQuestion(action: UIAlertAction! = nil){
         if questionCount == 10 {
-            displayAlert(title: "Final Score")
+            
+            if score > highestScore {
+                displayAlert(title: "Highest Score")
+                save()
+            } else {
+                displayAlert(title: "Final Score")
+            }
         } else {
             countries.shuffle()
             
@@ -71,5 +90,15 @@ class ViewController: UIViewController {
         button1.layer.borderColor = UIColor.lightGray.cgColor
         button2.layer.borderColor = UIColor.lightGray.cgColor
         button3.layer.borderColor = UIColor.lightGray.cgColor
+    }
+    
+    func save() {
+        let jsonEncoder = JSONEncoder()
+        if let savedData = try? jsonEncoder.encode(score) {
+            let defaults = UserDefaults.standard
+            defaults.set(savedData, forKey: "score")
+        } else {
+            print("Failed to save score.")
+        }
     }
 }
